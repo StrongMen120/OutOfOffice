@@ -17,7 +17,7 @@ namespace api.Controllers
             this.projectService = projectService;
         }
 
-        [HttpGet("/get/projects")]
+        [HttpGet("projects")]
         public async Task<ActionResult<List<Project>>> GetAllProjects()
         {
                 var projects = await projectService.listAllProjects();

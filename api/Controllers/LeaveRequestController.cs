@@ -17,21 +17,21 @@ namespace api.Controllers
             _leaveRequestService = leaveRequest;
         }
 
-        [HttpGet("get/leaverequest")]
-        public Task<List<LeaveRequest>> getAllRequests()
+        [HttpGet("leave-requests")]
+        public Task<List<LeaveRequest>> GetAllRequests()
         {
             return _leaveRequestService.getAllLeaveRequests();
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult<LeaveRequest>> createLeaveRequest([FromBody] LeaveRequest request)
+        [HttpPost("leave-request")]
+        public async Task<ActionResult<LeaveRequest>> CreateLeaveRequest([FromBody] LeaveRequest request)
         {
             var leaveRequest = await _leaveRequestService.createLeaveRequest(request);
             return Ok(leaveRequest);
         }
 
-        [HttpPut("/submit")]
-        public async Task<ActionResult<LeaveRequest>> subbmitLeaveRequest(int requestId, int approverId)
+        [HttpPut("leave-requests/submit")]
+        public async Task<ActionResult<LeaveRequest>> SubbmitLeaveRequest(int requestId, int approverId)
         {
             var leaveRequest = await _leaveRequestService.subbmitRequest(requestId, approverId);
             return Ok(leaveRequest);

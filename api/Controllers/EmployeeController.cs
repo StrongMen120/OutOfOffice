@@ -20,33 +20,20 @@ namespace api.Controllers
             _employeService = employeService;
         }
 
-        [HttpGet("/get/employees")]
+        [HttpGet("employees")]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
             var employess = await _employeService.GetAllEmployeesAsync();
 
             return Ok(employess);
         }
-        [HttpGet("/get/proj/{id}")]
-        public async Task<ActionResult<ISet<Project>>> GetEmployeeProjects(int id)
-        {
-            try
-            {
-                var projects = await _employeService.GetEmployeeProjectsAsync(id);
-                return Ok(projects);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
 
-        [HttpGet("/get/{id}")]
-        public async Task<ActionResult<List<Employee>>> getEmplyeeById(int id)
+        [HttpGet("employee/{id}")]
+        public async Task<ActionResult<List<Employee>>> GetEmplyeeById(int employeId)
         {
             try
             {
-                var employee = await _employeService.GetEmployeeByIdAsync(id);
+                var employee = await _employeService.GetEmployeeByIdAsync(employeId);
                 return Ok(employee);
             }
             catch (Exception ex)
@@ -55,18 +42,33 @@ namespace api.Controllers
             }
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult<Employee>> createEmployee(
+        [HttpPost("employee")]
+        public async Task<ActionResult<Employee>> CreateEmployee(
              string FullName,  Subdivision Subdivision,  Position Position,
             EmployeeStatus EmployeeStatus,  int peoplePartnerId, int OutOfOfficeBalance,
             string? photo)
         {
             try
             {
-                var Employee = await _employeService.createEmploye(FullName,Subdivision,Position,
-                    EmployeeStatus,peoplePartnerId,OutOfOfficeBalance,photo);
+                var Employee = await _employeService.CreateEmploye(FullName, Subdivision, Position,
+                    EmployeeStatus, peoplePartnerId, OutOfOfficeBalance, photo);
                 return Ok(Employee);
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Bad Request");
+            }
+        }
+
+
+        [HttpPut("add-employee-to-project")]
+        public async Task<ActionResult<Employee>> AddEmployeeToProject(int projectId, int employeId)
+        {
+            try
+            {
+                var Employee = await _employeService.AddEmployeeToProject(projectId, employeId);
+                return Ok(Employee);
             }
             catch (Exception ex)
             {

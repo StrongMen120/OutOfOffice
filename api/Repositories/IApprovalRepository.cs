@@ -6,10 +6,9 @@ namespace api.Repositories
     {
         Task<ApprovalRequest?> GetById(int id);
         Task<List<ApprovalRequest>> GetAll();
-        Task Add(ApprovalRequest approvalRequest);
-        Task Update(ApprovalRequest approvalRequest);
-        Task Delete(int id);
-        Task SaveChanges();
+        Task<ApprovalRequest> Add(ApprovalRequest approvalRequest);
+        Task<ApprovalRequest> Update(ApprovalRequest approvalRequest);
+        Task<ApprovalRequest> Delete(int id);
 
     }
 }

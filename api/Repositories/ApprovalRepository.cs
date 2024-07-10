@@ -23,29 +23,29 @@ namespace api.Repositories
             return await _context.ApprovalRequests.ToListAsync();
         }
 
-        public async Task Add(ApprovalRequest approvalRequest)
+        public async Task<ApprovalRequest> Add(ApprovalRequest approvalRequest)
         {
-            await _context.ApprovalRequests.AddAsync(approvalRequest); 
-        }
-
-        public async Task Update(ApprovalRequest approvalRequest)
-        {
-            _context.ApprovalRequests.Update(approvalRequest);
-        }
-
-        public async Task Delete(int id)
-        {
-            var approvalRequest = await _context.ApprovalRequests.FindAsync(id);
-            if(approvalRequest != null)
-            {
-                _context.ApprovalRequests.Remove(approvalRequest); ;
-            }
-        }
-
-        public async Task SaveChanges()
-        {
+            var entry = await _context.ApprovalRequests.AddAsync(approvalRequest); 
             await _context.SaveChangesAsync();
+            return entry.Entity;
         }
 
+        public async Task<ApprovalRequest> Update(ApprovalRequest approvalRequest)
+        {
+            var entry = await _context.ApprovalRequests.FirstOrDefaultAsync(p => p.ID == approvalRequest.ID);
+            entry.ApproverId = approvalRequest.ApproverId;
+            entry.Comment = approvalRequest.Comment;
+            entry.Status = approvalRequest.Status;
+            entry.LeaveRequestId = approvalRequest.LeaveRequestId;
+            await _context.SaveChangesAsync();
+            return entry;
+        }
+
+        public async Task<ApprovalRequest> Delete(int id)
+        {
+            var approvalRequest = await _context.ApprovalRequests.FirstOrDefaultAsync(p => p.ID == id);
+            var result = _context.ApprovalRequests.Remove(approvalRequest);
+            return result.Entity;
+        }
     }
 }

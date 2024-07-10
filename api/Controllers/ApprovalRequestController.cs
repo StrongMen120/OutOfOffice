@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Controllers
 {
     [ApiController]
-    [Route("api/approval-request")]
+    [Route("api/[controller]")]
     public class ApprovalRequestController : ControllerBase
     {
 
@@ -17,7 +17,7 @@ namespace api.Controllers
         }
 
 
-        [HttpGet("get")]
+        [HttpGet("approval-request")]
         public async Task<List<ApprovalRequest>> GetApproval() 
         {
             return await _approvalRequestService.getAllApprovalRequests();
